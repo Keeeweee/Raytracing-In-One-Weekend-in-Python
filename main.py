@@ -8,7 +8,7 @@ def scaleColor(color) -> int:
 
 
 def blueBlend(ray: Ray) -> vec3:
-    unit_direction = ray.direction().normalized
+    unit_direction = ray.direction.normalized
 
     t = 0.5 * unit_direction.y + 1.0
 
