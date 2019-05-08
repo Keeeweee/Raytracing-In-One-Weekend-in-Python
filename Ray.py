@@ -6,11 +6,13 @@ class Ray:
         self._origin = origin
         self._direction = direction
 
+    @property
     def origin(self) -> vec3:
         return self._origin
 
+    @property
     def direction(self) -> vec3:
         return self._direction
 
     def point_at_parameter(self, t: float):
-        return self.origin() + t * self.direction()
+        return self.origin + t * self.direction
