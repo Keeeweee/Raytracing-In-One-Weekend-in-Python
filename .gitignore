@@ -99,3 +99,5 @@ pyvenv.cfg
 pip-selfcheck.json
 
 # End of https://www.gitignore.io/api/pycharm,virtualenv
+
+./idea
