@@ -8,6 +8,10 @@ from Camera import Camera
 from random import random
 from Utils import randomInUnitSphere
 
+MAXFLOAT = 10000
+nx = 20
+ny = 10
+ns = 10
 
 def scaleColor(color) -> int:
     return int(255.99 * color)
@@ -20,7 +24,7 @@ def blueBlend(ray: Ray) -> vec3:
 
 def colorRay(ray: Ray, world: Shape) -> vec3:
     rec = [HitRecord()]
-    if world.hit(ray, 0, 10000, rec):
+    if world.hit(ray, 0.001, MAXFLOAT, rec):
         target = rec[0].p + rec[0].normal + randomInUnitSphere()
         return 0.5 * colorRay(Ray(rec[0].p, target - rec[0].p), world)
 
@@ -28,10 +32,7 @@ def colorRay(ray: Ray, world: Shape) -> vec3:
 
 
 def paintWorld():
-    nx = 200
-    ny = 100
-    ns = 100
-    ppmDrawer = PpmDrawer("normals_world_aa.ppm", nx, ny)
+    ppmDrawer = PpmDrawer("08_remove_shadow_acne.ppm", nx, ny)
 
     camera = Camera()
 
@@ -49,7 +50,7 @@ def paintWorld():
 
             new = int((count * 100) / (nx * ny))
             if last != new:
-                print("Progress: " + str(last) + "%", end="\r")
+                print("Progress: " + str(last) + "%", end="\n")
                 last = new
             count += 1
 
@@ -62,11 +63,8 @@ def paintWorld():
                 col += colorRay(ray, world)
 
             col = col / ns
-            ir = scaleColor(col[0])
-            ig = scaleColor(col[1])
-            ib = scaleColor(col[2])
 
-            points.append([ir, ig, ib])
+            points.append(col)
 
     ppmDrawer.writePpm(points)
 
