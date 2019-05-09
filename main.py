@@ -9,12 +9,9 @@ from random import random
 from Utils import randomInUnitSphere
 
 MAXFLOAT = 10000
-nx = 20
-ny = 10
-ns = 10
-
-def scaleColor(color) -> int:
-    return int(255.99 * color)
+nx = 200
+ny = 100
+ns = 100
 
 
 def blueBlend(ray: Ray) -> vec3:
