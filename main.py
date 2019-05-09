@@ -1,3 +1,6 @@
+from Shapes.Shape import HitRecord, Shape
+from Shapes.ShapeList import ShapeList
+from Shapes.Sphere import Sphere
 from pyrr import Vector3 as vec3
 from PpmDrawer import PpmDrawer
 from Ray import Ray
@@ -107,17 +110,50 @@ def hitSphere(center: vec3, radius: float, ray: Ray) -> float:
         return (-b - sqrt(discriminant)) / (2 * a)
 
 
-def colorRay(ray: Ray) -> vec3:
-    t = hitSphere(vec3([0, 0, -1]), 0.5, ray)
-    if t > 0:
-        N = ray.point_at_parameter(t) - vec3([0, 0, -1])
-        return 0.5 * (N + vec3([1, 1, 1]))
+def colorRay(ray: Ray, world: Shape) -> vec3:
+    rec = [HitRecord()]
+    if world.hit(ray, 0, 1000, rec):
+        return 0.5 * (rec[0].normal + vec3([1, 1, 1]))
 
     return blueBlend(ray)
 
 
+def paintWorld():
+    nx = 200
+    ny = 100
+    ppmDrawer = PpmDrawer("normals_world.ppm", nx, ny)
+
+    lower_left_corner = vec3([-2.0, -1.0, -1.0])
+    horizontal = vec3([4.0, 0.0, 0.0])
+    vertical = vec3([0.0, 2.0, 0.0])
+    origin = vec3([0.0, 0.0, 0.0])
+
+    points = []
+
+    world = ShapeList()
+    world.append(Sphere(vec3([0, 0, -1]), 0.5))
+    world.append(Sphere(vec3([0, -100.5, -1]), 100))
+
+    for j in range(ny, 0, -1):
+        for i in range(nx):
+
+            u = i / nx
+            v = j / ny
+
+            ray = Ray(origin, lower_left_corner + u * horizontal + v * vertical)
+            col = colorRay(ray, world)
+
+            ir = scaleColor(col[0])
+            ig = scaleColor(col[1])
+            ib = scaleColor(col[2])
+
+            points.append([ir, ig, ib])
+
+    ppmDrawer.writePpm(points)
+
+
 def main():
-    paintSphere()
+    paintWorld()
 
 
 if __name__ == "__main__":
