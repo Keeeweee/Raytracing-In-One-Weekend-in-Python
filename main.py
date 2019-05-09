@@ -1,6 +1,7 @@
 from pyrr import Vector3 as vec3
 from PpmDrawer import PpmDrawer
 from Ray import Ray
+from math import sqrt
 
 
 def scaleColor(color) -> int:
@@ -66,7 +67,7 @@ def paintColorGradient():
 def paintSphere():
     nx = 200
     ny = 100
-    ppmDrawer = PpmDrawer("red_sphere.ppm", nx, ny)
+    ppmDrawer = PpmDrawer("normals_sphere.ppm", nx, ny)
 
     lower_left_corner = vec3([-2.0, -1.0, -1.0])
     horizontal = vec3([4.0, 0.0, 0.0])
@@ -93,19 +94,24 @@ def paintSphere():
     ppmDrawer.writePpm(points)
 
 
-def hitSphere(center: vec3, radius: float, ray: Ray) -> bool:
+def hitSphere(center: vec3, radius: float, ray: Ray) -> float:
     oc = ray.origin - center
     a = ray.direction.dot(ray.direction)
     b = 2.0 * (oc.dot(ray.direction))
     c = oc.dot(oc) - (radius**2)
     discriminant = (b**2) - (4 * a * c)
 
-    return discriminant > 0
+    if discriminant < 0:
+        return -1
+    else:
+        return (-b - sqrt(discriminant)) / (2 * a)
 
 
 def colorRay(ray: Ray) -> vec3:
-    if hitSphere(vec3([0, 0, -1]), 0.5, ray):
-        return vec3([1, 0, 0])
+    t = hitSphere(vec3([0, 0, -1]), 0.5, ray)
+    if t > 0:
+        N = ray.point_at_parameter(t) - vec3([0, 0, -1])
+        return 0.5 * (N + vec3([1, 1, 1]))
 
     return blueBlend(ray)
 
