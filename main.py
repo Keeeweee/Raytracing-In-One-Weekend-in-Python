@@ -4,9 +4,9 @@ from Shapes.Sphere import Sphere
 from pyrr import Vector3 as vec3
 from PpmDrawer import PpmDrawer
 from Ray import Ray
-from math import sqrt
 from Camera import Camera
 from random import random
+from Utils import randomInUnitSphere
 
 
 def scaleColor(color) -> int:
@@ -15,14 +15,14 @@ def scaleColor(color) -> int:
 
 def blueBlend(ray: Ray) -> vec3:
     t = 0.5 * (ray.direction.y + 1.0)
-
     return (1.0 - t) * vec3([1.0, 1.0, 1.0]) + t * vec3([0.5, 0.7, 1.0])
 
 
 def colorRay(ray: Ray, world: Shape) -> vec3:
     rec = [HitRecord()]
-    if world.hit(ray, 0, 1000, rec):
-        return 0.5 * (rec[0].normal + vec3([1.0, 1.0, 1.0]))
+    if world.hit(ray, 0, 10000, rec):
+        target = rec[0].p + rec[0].normal + randomInUnitSphere()
+        return 0.5 * colorRay(Ray(rec[0].p, target - rec[0].p), world)
 
     return blueBlend(ray)
 
