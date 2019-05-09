@@ -4,7 +4,7 @@ from pyrr import vector3 as vec3
 class Ray:
     def __init__(self, origin: vec3, direction: vec3):
         self._origin = origin
-        self._direction = direction
+        self._direction = direction.normalized
 
     @property
     def origin(self) -> vec3:

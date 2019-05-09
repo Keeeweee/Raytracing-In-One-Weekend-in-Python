@@ -8,9 +8,7 @@ def scaleColor(color) -> int:
 
 
 def blueBlend(ray: Ray) -> vec3:
-    unit_direction = ray.direction.normalized
-
-    t = 0.5 * (unit_direction.y + 1.0)
+    t = 0.5 * (ray.direction.y + 1.0)
 
     return (1.0 - t) * vec3([1.0, 1.0, 1.0]) + t * vec3([0.5, 0.7, 1.0])
 
@@ -99,7 +97,7 @@ def hitSphere(center: vec3, radius: float, ray: Ray) -> bool:
     oc = ray.origin - center
     a = ray.direction.dot(ray.direction)
     b = 2.0 * (oc.dot(ray.direction))
-    c = oc.dot(oc) - radius * radius
+    c = oc.dot(oc) - (radius**2)
     discriminant = (b**2) - (4 * a * c)
 
     return discriminant > 0
