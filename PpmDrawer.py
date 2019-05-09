@@ -1,9 +1,10 @@
 
 class PpmDrawer:
-    def __init__(self, fileName: str, nX: int, nY: int):
+    def __init__(self, fileName: str, nX: int, nY: int, gamma: float = 2.0):
         self._filename = fileName
         self._nX = nX
         self._nY = nY
+        self.gamma = gamma
 
     def writePpm(self, points):
         with open(self._filename, "w+") as file:
@@ -11,4 +12,4 @@ class PpmDrawer:
             file.write("{0} {1}\n".format(self._nX, self._nY))
             file.write("255\n")
             for point in points:
-                file.write(" ".join([str(x) for x in point]) + "\n")
+                file.write(" ".join([str(pow(x, 1.0 / self.gamma)) for x in point]) + "\n")
