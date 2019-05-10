@@ -1,4 +1,5 @@
-from Shapes.Shape import HitRecord, Shape
+from Shapes.Shape import Shape
+from Shapes.HitRecord import HitRecord
 from Shapes.ShapeList import ShapeList
 from Shapes.Sphere import Sphere
 from pyrr import Vector3 as vec3
@@ -9,9 +10,9 @@ from random import random
 from Utils import randomInUnitSphere
 
 MAXFLOAT = 10000
-nx = 200
-ny = 100
-ns = 100
+nx = 20
+ny = 10
+ns = 10
 
 
 def blueBlend(ray: Ray) -> vec3:
@@ -20,16 +21,16 @@ def blueBlend(ray: Ray) -> vec3:
 
 
 def colorRay(ray: Ray, world: Shape) -> vec3:
-    rec = [HitRecord()]
+    rec = HitRecord()
     if world.hit(ray, 0.001, MAXFLOAT, rec):
-        target = rec[0].p + rec[0].normal + randomInUnitSphere()
-        return 0.5 * colorRay(Ray(rec[0].p, target - rec[0].p), world)
+        target = rec.p + rec.normal + randomInUnitSphere()
+        return 0.5 * colorRay(Ray(rec.p, target - rec.p), world)
 
     return blueBlend(ray)
 
 
 def paintWorld():
-    ppmDrawer = PpmDrawer("08_remove_shadow_acne.ppm", nx, ny)
+    ppmDrawer = PpmDrawer("test.ppm", nx, ny)
 
     camera = Camera()
 

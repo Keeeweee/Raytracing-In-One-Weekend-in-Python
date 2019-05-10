@@ -9,12 +9,12 @@ class Sphere(Shape):
         self.center = center
         self.radius = radius
 
-    def _recordHit(self, t: float, ray: Ray, rec: List[HitRecord]):
-        rec[0].t = t
-        rec[0].p = ray.pointAtParameter(rec[0].t)
-        rec[0].normal = (rec[0].p - self.center) / self.radius
+    def _recordHit(self, t: float, ray: Ray, rec: HitRecord):
+        rec.t = t
+        rec.p = ray.pointAtParameter(rec.t)
+        rec.normal = (rec.p - self.center) / self.radius
 
-    def hit(self, ray: Ray, t_min: float, t_max: float, rec: List[HitRecord]) -> bool:
+    def hit(self, ray: Ray, t_min: float, t_max: float, rec: HitRecord) -> bool:
         oc = ray.origin - self.center
         a = ray.direction.dot(ray.direction)
         b = oc.dot(ray.direction)

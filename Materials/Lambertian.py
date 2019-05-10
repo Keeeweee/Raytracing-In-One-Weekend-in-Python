@@ -1,16 +1,17 @@
-from Materials.Material import Material
-from Shapes.Shape import HitRecord
+from Materials.Material import *
 from Ray import Ray
 from pyrr import Vector3 as vec3
-from typing import List
 from Utils import randomInUnitSphere
+
 
 class Lambertian(Material):
     def __init__(self, albedo):
         self.albedo = albedo
 
-    def scatter(self, ray: Ray, rec: List[HitRecord], attenuation: vec3, scattered: Ray) -> bool:
-        target = rec[0].p + rec[0].normal + randomInUnitSphere()
-        scattered = Ray(rec[0].p, target - rec[0].p)
-        attenuation = self.albedo
+    def scatter(self, ray: Ray, rec: HitRecord, attenuation: vec3, scattered: Ray) -> bool:
+        target = rec.p + rec.normal + randomInUnitSphere()
+        scattered.copyFrom(Ray(rec.p, target - rec.p))
+        attenuation.x = self.albedo.x
+        attenuation.y = self.albedo.y
+        attenuation.z = self.albedo.z
         return True

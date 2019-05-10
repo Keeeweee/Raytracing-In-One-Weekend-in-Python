@@ -16,3 +16,7 @@ class Ray:
 
     def pointAtParameter(self, t: float):
         return self.origin + t * self.direction
+
+    def copyFrom(self, copy):
+        self._origin = copy.origin
+        self._direction = copy.direction.normalized

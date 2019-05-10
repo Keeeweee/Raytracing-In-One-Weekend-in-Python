@@ -1,4 +1,5 @@
 from Shapes.Shape import *
+from typing import List
 
 
 class ShapeList(Shape):
@@ -10,14 +11,14 @@ class ShapeList(Shape):
     def append(self, shape: Shape):
         self.shapeList.append(shape)
 
-    def hit(self, ray: Ray, t_min: float, t_max: float, rec: List[HitRecord]) -> bool:
+    def hit(self, ray: Ray, t_min: float, t_max: float, rec: HitRecord) -> bool:
         hitAnything = False
-        tempRec = [HitRecord()]
+        tempRec = HitRecord()
         closestSoFar = t_max
         for shape in self.shapeList:
             if shape.hit(ray, t_min, closestSoFar, tempRec):
                 hitAnything = True
-                closestSoFar = tempRec[0].t
-                rec[0] = tempRec[0]
+                closestSoFar = tempRec.t
+                rec.copyFrom(tempRec)
 
         return hitAnything
