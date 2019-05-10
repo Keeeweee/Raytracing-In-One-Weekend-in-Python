@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from Ray import Ray
 from Shapes.HitRecord import HitRecord
+from Materials.Material import Material
 
 
 class Shape(ABC):
