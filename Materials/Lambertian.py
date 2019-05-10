@@ -1,11 +1,9 @@
 from Materials.Material import *
-from Ray import Ray
-from pyrr import Vector3 as vec3
 from Utils import randomInUnitSphere
 
 
 class Lambertian(Material):
-    def __init__(self, albedo):
+    def __init__(self, albedo: vec3):
         self.albedo = albedo
 
     def scatter(self, ray: Ray, rec: HitRecord, attenuation: vec3, scattered: Ray) -> bool:
