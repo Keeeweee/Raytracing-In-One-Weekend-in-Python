@@ -4,6 +4,7 @@ from Shapes.ShapeList import ShapeList
 from Shapes.Sphere import Sphere
 from Materials.Lambertian import Lambertian
 from Materials.Metal import Metal
+from Materials.Dielectric import Dielectric
 from pyrr import Vector3 as vec3
 from PpmDrawer import PpmDrawer
 from Ray import Ray
@@ -50,10 +51,10 @@ def paintWorld():
                         Lambertian(vec3([0.8, 0.8, 0.0]))))
     world.append(Sphere(vec3([1.0, 0.0, -1.0]),
                         0.5,
-                        Metal(vec3([0.8, 0.6, 0.2]), 1.0)))
+                        Metal(vec3([0.8, 0.6, 0.2]), 0.3)))
     world.append(Sphere(vec3([-1.0, 0.0, -1.0]),
                         0.5,
-                        Metal(vec3([0.8, 0.8, 0.8]), 0.3)))
+                        Dielectric(1.5)))
 
     count = 0
     last = 0
