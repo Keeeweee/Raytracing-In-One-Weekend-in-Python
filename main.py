@@ -2,17 +2,18 @@ from Shapes.Shape import Shape
 from Shapes.HitRecord import HitRecord
 from Shapes.ShapeList import ShapeList
 from Shapes.Sphere import Sphere
+from Materials.Lambertian import Lambertian
+from Materials.Metal import Metal
 from pyrr import Vector3 as vec3
 from PpmDrawer import PpmDrawer
 from Ray import Ray
 from Camera import Camera
 from random import random
-from Utils import randomInUnitSphere
 
 MAXFLOAT = 10000
-nx = 20
-ny = 10
-ns = 10
+nx = 200
+ny = 100
+ns = 100
 
 
 def blueBlend(ray: Ray) -> vec3:
@@ -41,8 +42,18 @@ def paintWorld():
     points = []
 
     world = ShapeList()
-    world.append(Sphere(vec3([0.0, 0.0, -1.0]), 0.5))
-    world.append(Sphere(vec3([0.0, -100.5, -1.0]), 100))
+    world.append(Sphere(vec3([0.0, 0.0, -1.0]),
+                        0.5,
+                        Lambertian(vec3([0.8, 0.3, 0.3]))))
+    world.append(Sphere(vec3([0.0, -100.5, -1.0]),
+                        100,
+                        Lambertian(vec3([0.8, 0.8, 0.0]))))
+    world.append(Sphere(vec3([1.0, 0.0, -1.0]),
+                        0.5,
+                        Metal(vec3([0.8, 0.6, 0.2]), 1.0)))
+    world.append(Sphere(vec3([-1.0, 0.0, -1.0]),
+                        0.5,
+                        Metal(vec3([0.8, 0.8, 0.8]), 0.3)))
 
     count = 0
     last = 0
@@ -62,7 +73,7 @@ def paintWorld():
                 v = (j + random()) / ny
 
                 ray = camera.getRay(u, v)
-                col += colorRay(ray, world)
+                col += colorRay(ray, world, 0)
 
             col = col / ns
 
