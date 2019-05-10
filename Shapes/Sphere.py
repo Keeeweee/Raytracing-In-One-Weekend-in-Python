@@ -5,14 +5,16 @@ from math import sqrt
 
 
 class Sphere(Shape):
-    def __init__(self, center: vec3, radius: float):
+    def __init__(self, center: vec3, radius: float, material: Material):
         self.center = center
         self.radius = radius
+        self.material = material
 
     def _recordHit(self, t: float, ray: Ray, rec: HitRecord):
         rec.t = t
         rec.p = ray.pointAtParameter(rec.t)
         rec.normal = (rec.p - self.center) / self.radius
+        rec.material = self.material
 
     def hit(self, ray: Ray, t_min: float, t_max: float, rec: HitRecord) -> bool:
         oc = ray.origin - self.center
