@@ -6,9 +6,6 @@ class Metal(Material):
         self.albedo = albedo
         self.fuzz = f if f < 1 else 1
 
-    def reflect(self, v: vec3, n: vec3) -> vec3:
-        return v - 2 * v.dot(n) * n
-
     def scatter(self, ray: Ray, rec: HitRecord, attenuation: vec3, scattered: Ray) -> bool:
         reflected = self.reflect(ray.direction, rec.normal)
         scattered.copyFrom(Ray(rec.p, reflected + self.fuzz * randomInUnitSphere()))
