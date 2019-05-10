@@ -20,11 +20,15 @@ def blueBlend(ray: Ray) -> vec3:
     return (1.0 - t) * vec3([1.0, 1.0, 1.0]) + t * vec3([0.5, 0.7, 1.0])
 
 
-def colorRay(ray: Ray, world: Shape) -> vec3:
+def colorRay(ray: Ray, world: Shape, depth: int) -> vec3:
     rec = HitRecord()
     if world.hit(ray, 0.001, MAXFLOAT, rec):
-        target = rec.p + rec.normal + randomInUnitSphere()
-        return 0.5 * colorRay(Ray(rec.p, target - rec.p), world)
+        scattered = Ray(vec3([0.0, 0.0, 0.0]), vec3([0.0, 0.0, 0.0]))
+        attenuation = vec3()
+        if depth < 50 and rec.material.scatter(ray, rec, attenuation, scattered):
+            return attenuation * colorRay(scattered, world, depth + 1)
+        else:
+            return vec3([0.0, 0.0, 0.0])
 
     return blueBlend(ray)
 
