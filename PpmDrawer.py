@@ -1,7 +1,7 @@
 from typing import List
 
 class PpmDrawer:
-    def __init__(self, fileName: str, nX: int, nY: int, gamma: float = 1.0):
+    def __init__(self, fileName: str, nX: int, nY: int, gamma: float = 2.0):
         self._filename = fileName
         self._nX = nX
         self._nY = nY
