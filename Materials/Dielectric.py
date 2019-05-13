@@ -9,12 +9,14 @@ class Dielectric(Material):
         reflected = self.reflect(ray.direction, rec.normal)
         attenuation.x = 1.0
         attenuation.y = 1.0
-        attenuation.x = 1.0
+        attenuation.z = 1.0
         refracted = vec3([0.0, 0.0, 0.0])
         if ray.direction.dot(rec.normal) > 0:
             outward_normal = -rec.normal
             ni_over_nt = self.ref_idx
             cosine = self.ref_idx * ray.direction.dot(rec.normal) / ray.direction.length
+            # cosine = ray.direction.dot(rec.normal) / ray.direction.length
+            # cosine = sqrt(1 - self.ref_idx**2 * (1.0 - cosine**2))
         else:
             outward_normal = rec.normal
             ni_over_nt = 1.0 / self.ref_idx
