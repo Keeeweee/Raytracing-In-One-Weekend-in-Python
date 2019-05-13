@@ -11,7 +11,7 @@ from Ray import Ray
 from Camera import Camera
 from random import random
 
-MAXFLOAT = 10000
+MAXFLOAT = 1000000
 nx = 200
 ny = 100
 ns = 100
@@ -45,7 +45,7 @@ def paintWorld():
     world = ShapeList()
     world.append(Sphere(vec3([0.0, 0.0, -1.0]),
                         0.5,
-                        Lambertian(vec3([0.8, 0.3, 0.3]))))
+                        Lambertian(vec3([0.1, 0.2, 0.5]))))
     world.append(Sphere(vec3([0.0, -100.5, -1.0]),
                         100,
                         Lambertian(vec3([0.8, 0.8, 0.0]))))
@@ -55,6 +55,9 @@ def paintWorld():
     world.append(Sphere(vec3([-1.0, 0.0, -1.0]),
                         0.5,
                         Dielectric(1.5)))
+    # world.append(Sphere(vec3([-1.0, 0.0, -1.0]),
+    #                     -0.45,
+    #                     Dielectric(1.5)))
 
     count = 0
     last = 0
