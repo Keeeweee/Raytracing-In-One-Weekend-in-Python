@@ -39,33 +39,36 @@ def colorRay(ray: Ray, world: Shape, depth: int) -> vec3:
 def paintWorld():
     ppmDrawer = PpmDrawer("test.ppm", nx, ny)
 
-    camera = Camera(90.0, float(nx)/float(ny))
+    lookFrom = vec3([-2.0, 2, 1])
+    lookAt = vec3([0.0, 0.0, -1.0])
+    vUp = vec3([0.0, 1.0, 0.0])
+    camera = Camera(lookFrom, lookAt, vUp, 90.0, float(nx)/float(ny))
 
     points = []
 
     R = cos(pi/4.0)
     world = ShapeList()
-    world.append(Sphere(vec3([-R, 0.0, -1.0]),
-                        R,
-                        Lambertian(vec3([0.0, 0.0, 1.0]))))
-    world.append(Sphere(vec3([R, 0.0, -1.0]),
-                        R,
-                        Lambertian(vec3([1.0, 0.0, 0.0]))))
-    # world.append(Sphere(vec3([0.0, 0.0, -1.0]),
-    #                     0.5,
-    #                     Lambertian(vec3([0.1, 0.2, 0.5]))))
-    # world.append(Sphere(vec3([0.0, -100.5, -1.0]),
-    #                     100,
-    #                     Lambertian(vec3([0.8, 0.8, 0.0]))))
-    # world.append(Sphere(vec3([1.0, 0.0, -1.0]),
-    #                     0.5,
-    #                     Metal(vec3([0.8, 0.6, 0.2]), 0.3)))
-    # world.append(Sphere(vec3([-1.0, 0.0, -1.0]),
-    #                     0.5,
-    #                     Dielectric(1.5)))
-    # world.append(Sphere(vec3([-1.0, 0.0, -1.0]),
-    #                     -0.45,
-    #                     Dielectric(1.5)))
+    # world.append(Sphere(vec3([-R, 0.0, -1.0]),
+    #                     R,
+    #                     Lambertian(vec3([0.0, 0.0, 1.0]))))
+    # world.append(Sphere(vec3([R, 0.0, -1.0]),
+    #                     R,
+    #                     Lambertian(vec3([1.0, 0.0, 0.0]))))
+    world.append(Sphere(vec3([0.0, 0.0, -1.0]),
+                        0.5,
+                        Lambertian(vec3([0.1, 0.2, 0.5]))))
+    world.append(Sphere(vec3([0.0, -100.5, -1.0]),
+                        100,
+                        Lambertian(vec3([0.8, 0.8, 0.0]))))
+    world.append(Sphere(vec3([1.0, 0.0, -1.0]),
+                        0.5,
+                        Metal(vec3([0.8, 0.6, 0.2]), 0.3)))
+    world.append(Sphere(vec3([-1.0, 0.0, -1.0]),
+                        0.5,
+                        Dielectric(1.5)))
+    world.append(Sphere(vec3([-1.0, 0.0, -1.0]),
+                        -0.45,
+                        Dielectric(1.5)))
 
     count = 0
     last = 0
