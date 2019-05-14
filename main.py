@@ -10,6 +10,7 @@ from PpmDrawer import PpmDrawer
 from Ray import Ray
 from Camera import Camera
 from random import random
+from math import pi, cos
 
 MAXFLOAT = 1000000
 nx = 200
@@ -38,23 +39,30 @@ def colorRay(ray: Ray, world: Shape, depth: int) -> vec3:
 def paintWorld():
     ppmDrawer = PpmDrawer("test.ppm", nx, ny)
 
-    camera = Camera()
+    camera = Camera(90.0, float(nx)/float(ny))
 
     points = []
 
+    R = cos(pi/4.0)
     world = ShapeList()
-    world.append(Sphere(vec3([0.0, 0.0, -1.0]),
-                        0.5,
-                        Lambertian(vec3([0.1, 0.2, 0.5]))))
-    world.append(Sphere(vec3([0.0, -100.5, -1.0]),
-                        100,
-                        Lambertian(vec3([0.8, 0.8, 0.0]))))
-    world.append(Sphere(vec3([1.0, 0.0, -1.0]),
-                        0.5,
-                        Metal(vec3([0.8, 0.6, 0.2]), 0.3)))
-    world.append(Sphere(vec3([-1.0, 0.0, -1.0]),
-                        0.5,
-                        Dielectric(1.5)))
+    world.append(Sphere(vec3([-R, 0.0, -1.0]),
+                        R,
+                        Lambertian(vec3([0.0, 0.0, 1.0]))))
+    world.append(Sphere(vec3([R, 0.0, -1.0]),
+                        R,
+                        Lambertian(vec3([1.0, 0.0, 0.0]))))
+    # world.append(Sphere(vec3([0.0, 0.0, -1.0]),
+    #                     0.5,
+    #                     Lambertian(vec3([0.1, 0.2, 0.5]))))
+    # world.append(Sphere(vec3([0.0, -100.5, -1.0]),
+    #                     100,
+    #                     Lambertian(vec3([0.8, 0.8, 0.0]))))
+    # world.append(Sphere(vec3([1.0, 0.0, -1.0]),
+    #                     0.5,
+    #                     Metal(vec3([0.8, 0.6, 0.2]), 0.3)))
+    # world.append(Sphere(vec3([-1.0, 0.0, -1.0]),
+    #                     0.5,
+    #                     Dielectric(1.5)))
     # world.append(Sphere(vec3([-1.0, 0.0, -1.0]),
     #                     -0.45,
     #                     Dielectric(1.5)))
