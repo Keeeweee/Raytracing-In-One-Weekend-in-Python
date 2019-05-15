@@ -7,4 +7,10 @@ def randomInUnitSphere():
         p = 2.0 * vec3([random(), random(), random()]) - vec3([1.0, 1.0, 1.0])
         if p.squared_length < 1.0:
             return p
+
+
+def randomInUnitDisk():
+    while True:
+        p = 2.0 * vec3([random(), random(), 0.0]) - vec3([1.0, 1.0, 0.0])
+        if p.squared_length < 1.0:
             return p
