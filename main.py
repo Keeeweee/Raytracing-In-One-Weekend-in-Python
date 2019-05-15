@@ -37,12 +37,14 @@ def colorRay(ray: Ray, world: Shape, depth: int) -> vec3:
 
 
 def paintWorld():
-    ppmDrawer = PpmDrawer("test.ppm", nx, ny)
+    ppmDrawer = PpmDrawer("testasd.ppm", nx, ny)
 
-    lookFrom = vec3([-2.0, 2, 1])
+    lookFrom = vec3([3.0, 3.0, 2.0])
     lookAt = vec3([0.0, 0.0, -1.0])
     vUp = vec3([0.0, 1.0, 0.0])
-    camera = Camera(lookFrom, lookAt, vUp, 90.0, float(nx)/float(ny))
+    distToFocus = (lookFrom - lookAt).length
+    aperture = 2.0
+    camera = Camera(lookFrom, lookAt, vUp, 90.0/4.0, float(nx)/float(ny), aperture, distToFocus)
 
     points = []
 
